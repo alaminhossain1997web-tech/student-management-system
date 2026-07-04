@@ -1,8 +1,6 @@
 const express = require ("express");
 const route = express.Router();
-
-const login = route.get("/login",(req,res)=>{
-    res.send("Welcome to the login page")
-})
+const loginController = require("../../controllers/authController/loginController")
+const login = route.post("/login", loginController);
 
 module.exports = login;

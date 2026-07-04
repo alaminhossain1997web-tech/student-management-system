@@ -1,8 +1,6 @@
 const express = require ("express");
 const route = express.Router();
-
-const registration = route.get("/registration",(req,res)=>{
-    res.send("Welcome to the registration page")
-})
+const registrationController = require("../../controllers/authController/registrationController")
+const registration = route.post("/registration", registrationController);
 
 module.exports = registration;
