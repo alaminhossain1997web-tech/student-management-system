@@ -19,21 +19,29 @@ const userSchema = new mongoose.Schema({
         type : String,
         ruquired : true
     },
+    OTP:{
+      type : String,
+      default : null
+    },
+    OTPExpires : {
+      type : Date,
+      default : null
+    },
 
     isEmailVerified: {
       type: Boolean,
       default: false,
     },
 
-       emailVerificationToken: {
-      type: String,
-      select: false,
-    },
+    //    emailVerificationToken: {
+    //   type: String,
+    //   select: false,
+    // },
 
-    emailVerificationExpires: {
-      type: Date,
-      select: false,
-    },
+    // emailVerificationExpires: {
+    //   type: Date,
+    //   select: false,
+    // },
 
     passwordResetToken: {
       type: String,
