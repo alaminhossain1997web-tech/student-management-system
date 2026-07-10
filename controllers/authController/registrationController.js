@@ -1,6 +1,4 @@
 const express = require("express");
-const route = express.Router();
-const userSchema = require("../../models/userSchema");
 const { isvalidEmail, isvalidpassword, otpGenerator, otpExpires } = require("../../helpers/utils");
 const { mailSender } = require("../../helpers/mailService");
 
