@@ -1,6 +1,6 @@
-const express = require("express");
-const { isvalidEmail, isvalidpassword, otpGenerator, otpExpires } = require("../../helpers/utils");
+const { validEmail, isvalidpassword, otpGenerator, otpExpires } = require("../../helpers/utils");
 const { mailSender } = require("../../helpers/mailService");
+const userSchema = require("../../models/userSchema");
 
 const registrationController = async (req, res) => {
   const {
@@ -16,8 +16,10 @@ const registrationController = async (req, res) => {
   if (!name || name.trim() === "") {
     errors.name = "Name is required";
   }
+
+
   // "isvalidEmail" Email validatio function import from helpers/utils.js
-  if (!email || email.trim() === "" || !isvalidEmail(email)) {
+  if (!email || email.trim() === "" || !validEmail(email)) {
     errors.email = "Valid email is required";
   }
   if (!password || password.trim() === "" || !isvalidpassword(password)) {
@@ -28,6 +30,8 @@ const registrationController = async (req, res) => {
       message: errors
     });
   }
+
+
   // check if email already exists in the database
   const existingemail = await userSchema.findOne({
     email
@@ -53,6 +57,8 @@ const registrationController = async (req, res) => {
     OTP: otp_num,
     OTPExpires : expires
   });
+
+
   // mailsender function import from helpers/mailService.js
   // if user create successfully then send the otp to the user email for verification
   await mailSender({email, subject :"Please verify your email", OTP: otp_num});
@@ -61,6 +67,7 @@ const registrationController = async (req, res) => {
     message: "User registered successfully please verify your email",
     user
   });
+
 }
 
 module.exports = registrationController;

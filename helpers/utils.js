@@ -1,6 +1,6 @@
 const crypto = require("crypto")
 //email validation function
-const isvalidEmail = (email) => {
+const validEmail = (email) => {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return regex.test(email);
 };
@@ -18,4 +18,5 @@ const otpGenerator = () => {
  const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
 
 
-module.exports= {isvalidEmail, isvalidpassword, otpGenerator, otpExpires }
+
+module.exports= {validEmail, isvalidpassword, otpGenerator, otpExpires}
