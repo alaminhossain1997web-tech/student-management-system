@@ -1,8 +1,10 @@
 const express = require ("express");
 const route = express.Router();
-const addstudentRoute = require("./addstudent");
-const deletestudentRoute = require("./deletestudent");
+const addstudent = require("../../routes/dashboard/adminDashboard/addstudent");
+const deletestudent = require("../../routes/dashboard/adminDashboard/deleteStudent");
+const access = require("../../middlewares/authMiddleware/access");
+const protect = require("../../middlewares/authMiddleware/protect");
 
+const dashboardRoute = route.use("/dashboard",access,protect,addstudent,deletestudent);
 
- const dashboardRoute = route.use("/dashboard", addstudentRoute, deletestudentRoute);
 module.exports = dashboardRoute;

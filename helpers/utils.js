@@ -1,4 +1,5 @@
 const crypto = require("crypto")
+const jwt = require("jsonwebtoken");
 //email validation function
 const validEmail = (email) => {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -14,9 +15,16 @@ const isvalidpassword = (password) => {
 const otpGenerator = () => {
  return crypto.randomInt(1000, 10000).toString()
 }
+
 // otp expire time
  const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
 
 
+//generateAccessToken
+ const generateAccessToken = (user) => {
+  return jwt.sign(user,process.env.JWT_ACCESS_SECRET);
+};
 
-module.exports= {validEmail, isvalidpassword, otpGenerator, otpExpires}
+
+
+module.exports= {validEmail, isvalidpassword, otpGenerator, otpExpires,generateAccessToken}

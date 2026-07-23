@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const userSchema = require("../../models/userSchema");
-const { validEmail, isvalidpassword } = require("../../helpers/utils");
+const { validEmail, isvalidpassword, generateAccessToken } = require("../../helpers/utils");
 
 const loginController = async (req, res) => {
     const {email,password}= req.body;
@@ -8,14 +8,14 @@ const loginController = async (req, res) => {
     try {
     const user = await userSchema.findOne({email});
     if (!user ){
-       res.status(400).json({message: "user not found!"})
+       return res.status(400).json({message: "user not found!"})
     };
     if (!password || password.trim() === "" || !isvalidpassword(password)){
          errors.password = "Enter your valid password"
     };
 
     if (!email || email.trim() === "" || !validEmail(email)){
-         errors.password = "Enter your valid Email"
+         errors.email = "Enter your valid Email"
     };
 
     if (!user.isvalidEmail){
@@ -34,10 +34,25 @@ const loginController = async (req, res) => {
       message: errors
     });
   }
-    res.status(200).json({message:" login successfull"})
+//token generate and set in cookie
+ const Token = generateAccessToken({
+  id: user._id,
+  email: user.email,
+});
+
+console.log("Generated Token:", Token);
+
+res.cookie("accessToken", Token);
+
+return res.status(200).json({
+  message: "Login successful",
+});
     } catch (error) {
+        console.log(error);
         
     }
 }
 
+
 module.exports = loginController;
+

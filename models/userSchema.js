@@ -1,65 +1,70 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema({
-    name: {
-        type : String,
-        required : true,
-        trim : true
+  name: {
+    type: String,
+    required: true,
+    trim: true
 
-    },
-    email : {
-        type : String,
-        required: true,
-        unique : true,
-        trime : true,
-        lowerase: true
-    },
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trime: true,
+    lowercase: true
+  },
+  
+  role: {
+    type: String,
+    enum: ["admin", "teacher", "student"],
+    default: "student"
+  },
 
-    password :{
-        type : String,
-        ruquired : true
-    },
-    OTP:{
-      type : String,
-      default : null
-    },
-    OTPExpires : {
-      type : Date,
-      default : null
-    },
+  password: {
+    type: String,
+    ruquired: true
+  },
+  OTP: {
+    type: String,
+    default: null
+  },
+  OTPExpires: {
+    type: Date,
+    default: null
+  },
 
-    isvalidEmail: {
-      type: Boolean,
-      default: false,
-    },
+  isvalidEmail: {
+    type: Boolean,
+    default: false,
+  },
 
-    //    emailVerificationToken: {
-    //   type: String,
-    //   select: false,
-    // },
+  //    emailVerificationToken: {
+  //   type: String,
+  //   select: false,
+  // },
 
-    // emailVerificationExpires: {
-    //   type: Date,
-    //   select: false,
-    // },
+  // emailVerificationExpires: {
+  //   type: Date,
+  //   select: false,
+  // },
 
-    passwordResetToken: {
-      type: String,
-      select: false,
-    },
+  passwordResetToken: {
+    type: String,
+    select: false,
+  },
 
-    passwordResetExpires: {
-      type: Date,
-      select: false,
-    },
-},
-  {
-    timestamps: true,
-  })
+  passwordResetExpires: {
+    type: Date,
+    select: false,
+  },
+}, {
+  timestamps: true,
+})
 
 
 // password hashing before saving the user to the database
-  userSchema.pre("save", async function () {
+userSchema.pre("save", async function () {
   if (!this.isModified("password")) {
     return;
   }
@@ -76,4 +81,4 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 
 
-module.exports = mongoose.model("user",userSchema )
+module.exports = mongoose.model("user", userSchema)

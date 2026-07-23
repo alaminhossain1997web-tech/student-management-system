@@ -5,9 +5,15 @@ const userSchema = require("../../models/userSchema");
   const verifyController = async(req,res) =>{
     const {email, OTP} = req.body;
     try {
-      const user = await userSchema.findByIdAndUpdate({email,OTP, OTPExpires:{ $gt: Date.now()}},{isvalidEmail : true, OTP:null},{returnDocument: "after"});
+      const user = await userSchema.findOneAndUpdate({email,OTP, OTPExpires:{ $gt: Date.now()}},{isvalidEmail : true, OTP:null},{returnDocument: "after"});
       if (!user){
         return res.status(400).json({message: "Invalid request!"})
+      }
+      if (!email){
+        return res.status(400).json({message:"email is required"})
+      }
+      if (!OTP){
+        return res,status(400).json({message:"Otp is required"})
       }
       res.status(200).json({message: "Email verify successfully"})
     } catch (error) {

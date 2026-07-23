@@ -6,4 +6,5 @@ const verifyRoute = require("./verifyOTP")
 
 const authRoute = route.use("/auth", loginRoute, registrationRoute, verifyRoute);
 
+
 module.exports = authRoute;
